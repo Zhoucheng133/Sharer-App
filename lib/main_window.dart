@@ -20,13 +20,13 @@ class _MainWindowState extends State<MainWindow> {
         children: [
           FilledButton(
             onPressed: (){
-              server.run();
+              server.run("8080", "/Users/zhoucheng/Downloads", "", "");
             }, 
             child: const Text("运行")
           ),
           TextButton(
             onPressed: (){
-              server.kill();
+              server.stop();
             }, 
             child: const Text('停止')
           )
