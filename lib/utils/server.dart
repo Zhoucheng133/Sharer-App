@@ -37,6 +37,22 @@ class Server {
     return cmd;
   }
 
+  Future<bool> portCheck(String port) async {
+    try {
+      int portConvert=int.parse(port);
+      final server = await ServerSocket.bind(InternetAddress.loopbackIPv4, portConvert);
+      await server.close();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool dirCheck(String dir){
+    final directory = Directory(dir);
+    return directory.existsSync();
+  }
+
   Future<void> run(String port, String dir, String username, String password) async {
     try {
       await shell.run(getCmd(port, dir, username, password));
