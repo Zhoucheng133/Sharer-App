@@ -6,8 +6,9 @@ import 'package:window_manager/window_manager.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
+  const size=Size(400, 350);
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(400, 300),
+    size: size,
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
@@ -16,6 +17,7 @@ Future<void> main() async {
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
     await windowManager.focus();
+    windowManager.setResizable(false);
   });
 
   runApp(const MainApp());
