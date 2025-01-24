@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Auth {
   late String username;
@@ -7,9 +8,11 @@ class Auth {
   Auth(this.username, this.password);
 }
 
-Future<Auth> authDialog(BuildContext context) async {
+Future<Auth> authDialog(BuildContext context, String usernameIn, String passwordIn) async {
   var usernameInput=TextEditingController();
   var passwordInput=TextEditingController();
+  usernameInput.text=usernameIn;
+  passwordInput.text=passwordIn;
   await showDialog(
     context: context, 
     builder: (context)=>AlertDialog(
@@ -21,16 +24,18 @@ Future<Auth> authDialog(BuildContext context) async {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('用户名'),
-                  const SizedBox(height: 5,),
                   Row(
                     children: [
                       Expanded(
                         child: TextField(
+                          style: GoogleFonts.notoSansSc(
+                            fontSize: 14,
+                          ),
                           controller: usernameInput,
                           decoration: InputDecoration(
+                            labelText: "用户名",
                             isCollapsed: true,
-                            contentPadding: const EdgeInsets.all(10),
+                            contentPadding: const EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 10),
                             enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Color.fromARGB(255, 52, 93, 136), width: 1.0),
                               borderRadius: BorderRadius.circular(10)
@@ -50,18 +55,20 @@ Future<Auth> authDialog(BuildContext context) async {
                       )
                     ],
                   ),
-                  const SizedBox(height: 10,),
-                  const Text('密码'),
-                  const SizedBox(height: 5,),
+                  const SizedBox(height: 20,),
                   Row(
                     children: [
                       Expanded(
                         child: TextField(
+                          style: GoogleFonts.notoSansSc(
+                            fontSize: 14,
+                          ),
                           controller: passwordInput,
                           obscureText: true,
                           decoration: InputDecoration(
+                            labelText: "密码",
                             isCollapsed: true,
-                            contentPadding: const EdgeInsets.all(10),
+                            contentPadding: const EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 10),
                             enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Color.fromARGB(255, 52, 93, 136), width: 1.0),
                               borderRadius: BorderRadius.circular(10)

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sharer_app/utils/auth.dart';
 import 'package:sharer_app/utils/server.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,19 +21,44 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
 
   final server=Server();
 
+  late SharedPreferences prefs;
+
   final pathInput=TextEditingController();
   final portInput=TextEditingController();
-  String username="";
-  String password="";
+  String usernameInput="";
+  String passwordInput="";
   bool useAuth=false;
   String address="";
 
   bool running=false;
 
-  void init(){
-    setState(() {
-      portInput.text="8080";
-    });
+  Future<void> init() async {
+    prefs=await SharedPreferences.getInstance();
+    final port=prefs.getString('port');
+    final path=prefs.getString('path');
+    final username=prefs.getString('username');
+    final password=prefs.getString('password');
+    if(port!=null && port.isNotEmpty){
+      setState(() {
+        portInput.text=port;
+      });
+    }else{
+      setState(() {
+        portInput.text="8080";
+      });
+    }
+    if(path!=null && path.isNotEmpty){
+      setState(() {
+        pathInput.text=path;
+      });
+    }
+    if(username!=null && password!=null && username.isNotEmpty && password.isNotEmpty){
+      setState(() {
+        usernameInput=username;
+        passwordInput=password;
+        useAuth=true;
+      });
+    }
   }
 
   Future<void> getAddress() async {
@@ -94,6 +121,9 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     child: TextField(
                       enabled: false,
                       controller: pathInput,
+                      style: GoogleFonts.notoSansSc(
+                        fontSize: 14,
+                      ),
                       decoration: InputDecoration(
                         isCollapsed: true,
                         contentPadding: const EdgeInsets.all(10),
@@ -134,6 +164,9 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   Expanded(
                     child: TextField(
                       controller: portInput,
+                      style: GoogleFonts.notoSansSc(
+                        fontSize: 14,
+                      ),
                       decoration: InputDecoration(
                         isCollapsed: true,
                         contentPadding: const EdgeInsets.all(10),
@@ -191,12 +224,12 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   Expanded(child: Container()),
                   FilledButton(
                     onPressed: useAuth ? () async {
-                      final data=await authDialog(context);
+                      final data=await authDialog(context, usernameInput, passwordInput);
                       setState(() {
-                        username=data.username;
-                        password=data.password;
+                        usernameInput=data.username;
+                        passwordInput=data.password;
                       });
-                      if(username.isEmpty && password.isEmpty){
+                      if(usernameInput.isEmpty && passwordInput.isEmpty){
                         setState(() {
                           useAuth=false;
                         });
@@ -290,7 +323,13 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                               );
                             }
                           }else{
-                            server.run(portInput.text, pathInput.text, username, password);
+                            server.run(portInput.text, pathInput.text, useAuth ? usernameInput : "", useAuth ? passwordInput : "");
+                            prefs.setString("port", portInput.text);
+                            prefs.setString("path", pathInput.text);
+                            if(!useAuth){
+                              prefs.setString("username", "");
+                              prefs.setString("password", "");
+                            }
                             setState(() {
                               running=true;
                             });
