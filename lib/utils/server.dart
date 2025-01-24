@@ -40,7 +40,7 @@ class Server {
   Future<bool> portCheck(String port) async {
     try {
       int portConvert=int.parse(port);
-      final server = await ServerSocket.bind(InternetAddress.loopbackIPv4, portConvert);
+      final server = await ServerSocket.bind("0.0.0.0", portConvert);
       await server.close();
       return true;
     } catch (e) {
