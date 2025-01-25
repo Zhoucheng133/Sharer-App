@@ -34,6 +34,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
 
   Future<void> init() async {
     prefs=await SharedPreferences.getInstance();
+    await windowManager.setPreventClose(true);
     final port=prefs.getString('port');
     final path=prefs.getString('path');
     final username=prefs.getString('username');
@@ -81,6 +82,32 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     init();
     getAddress();
     windowManager.addListener(this);
+  }
+
+  @override
+  void onWindowClose() async {
+    bool isPreventClose = await windowManager.isPreventClose();
+    if (isPreventClose) {
+      if(running){
+        showDialog(
+          // ignore: use_build_context_synchronously
+          context: context, 
+          builder: (BuildContext context)=>AlertDialog(
+            title: const Text('服务在运行中'),
+            content: const Text('你需要先关闭服务才能退出'),
+            actions: [
+              FilledButton(
+                onPressed: ()=>Navigator.pop(context), 
+                child: const Text('好的')
+              )
+            ],
+          )
+        );
+      }else{
+        await windowManager.setPreventClose(false);
+        await windowManager.close();
+      }
+    }
   }
 
  @override
