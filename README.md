@@ -11,6 +11,9 @@
 > [!NOTE]
 > 这个项目是App本体，仓库中有二进制文件 (`assets/*`)，如果你要查找二进制文件的源代码请前往[Sharer-Core](https://github.com/Zhoucheng133/Sharer-Core)，如果你要查找网页的源代码请前往[Sharer-Web](https://github.com/Zhoucheng133/Sharer-Web)
 
+> [!IMPORTANT]
+> 有一定概率会被Windows Defender识别为病毒，但是程序本身没有问题，为了确保正常使用建议不要删除误判为病毒的可执行二进制文件，如果你很介意可以在你的设备上自行配置Sharer-Core（这种情况一般不会误报）
+
 ## 目录
 
 - [简介](#简介)
