@@ -1,3 +1,2 @@
-# sharer_app
+# Sharer-App
 
-A new Flutter project.
