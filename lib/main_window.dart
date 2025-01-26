@@ -145,26 +145,29 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
               Row(
                 children: [
                   Expanded(
-                    child: TextField(
-                      enabled: false,
-                      controller: pathInput,
-                      style: GoogleFonts.notoSansSc(
-                        fontSize: 14,
-                      ),
-                      decoration: InputDecoration(
-                        isCollapsed: true,
-                        contentPadding: const EdgeInsets.all(10),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Color.fromARGB(255, 52, 93, 136), width: 1.0),
-                          borderRadius: BorderRadius.circular(10)
+                    child: Tooltip(
+                      message: pathInput.text,
+                      child: TextField(
+                        enabled: false,
+                        controller: pathInput,
+                        style: GoogleFonts.notoSansSc(
+                          fontSize: 14,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Color.fromARGB(255, 52, 93, 136), width: 2.0),
-                          borderRadius: BorderRadius.circular(10)
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey[400]!, width: 1.0),
-                          borderRadius: BorderRadius.circular(10)
+                        decoration: InputDecoration(
+                          isCollapsed: true,
+                          contentPadding: const EdgeInsets.all(10),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Color.fromARGB(255, 52, 93, 136), width: 1.0),
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Color.fromARGB(255, 52, 93, 136), width: 2.0),
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey[400]!, width: 1.0),
+                            borderRadius: BorderRadius.circular(10)
+                          ),
                         ),
                       ),
                     ),
