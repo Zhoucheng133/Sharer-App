@@ -60,6 +60,8 @@ class Server {
   }
 
   void stop(){
-    shell.kill();
+    try {
+      shell.kill();
+    } catch (_) {}
   }
 }
