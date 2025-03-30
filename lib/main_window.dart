@@ -116,6 +116,19 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     super.dispose();
   }
 
+  Future<void> showAuthDialog() async {
+    final data=await authDialog(context, usernameInput, passwordInput);
+    setState(() {
+      usernameInput=data.username;
+      passwordInput=data.password;
+    });
+    if(usernameInput.isEmpty && passwordInput.isEmpty){
+      setState(() {
+        useAuth=false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -239,13 +252,21 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         setState(() {
                           useAuth=val;
                         });
+                        if(val==true){
+                          showAuthDialog();
+                        }
                       }
                     }
                   ),
                   GestureDetector(
-                    onTap: ()=>setState(() {
-                      useAuth=!useAuth;
-                    }),
+                    onTap: (){
+                      setState(() {
+                        useAuth=!useAuth;
+                      });
+                      if(useAuth==true){
+                        showAuthDialog();
+                      }
+                    },
                     child: const MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: Text("启用登录")
@@ -253,17 +274,8 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   ),
                   Expanded(child: Container()),
                   FilledButton(
-                    onPressed: useAuth ? () async {
-                      final data=await authDialog(context, usernameInput, passwordInput);
-                      setState(() {
-                        usernameInput=data.username;
-                        passwordInput=data.password;
-                      });
-                      if(usernameInput.isEmpty && passwordInput.isEmpty){
-                        setState(() {
-                          useAuth=false;
-                        });
-                      }
+                    onPressed: useAuth ? () {
+                      showAuthDialog();
                     } : null, 
                     child: const Text('用户设置')
                   )
