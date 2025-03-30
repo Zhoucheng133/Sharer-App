@@ -1,7 +1,7 @@
 name: sharer_app
 description: "Sharer App"
 publish_to: 'none'
-version: 2.0.0
+version: 2.0.1
 
 environment:
   sdk: ^3.5.4
