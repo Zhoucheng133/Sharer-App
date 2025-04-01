@@ -38,7 +38,7 @@ class Server {
       "assets/dist/index.html",
       "assets/dist/vite.svg",
       "assets/dist/assets/index-BGsdZcFV.css",
-      "assets/dist/assets/index-CeL_c0pR.js",
+      "assets/dist/assets/index-DYG1QWfJ.js",
       "assets/dist/assets/primeicons-C6QP2o4f.woff2",
       "assets/dist/assets/primeicons-DMOk5skT.eot",
       "assets/dist/assets/primeicons-Dr5RGzOO.svg",
