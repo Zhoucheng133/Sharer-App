@@ -299,7 +299,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     },
                     child: MouseRegion(
                       cursor: running ? SystemMouseCursors.click : SystemMouseCursors.forbidden ,
-                      child: Text("$address:${portInput.text}")
+                      // child: Text("$address:${portInput.text}")
+                      child: ValueListenableBuilder(
+                        valueListenable: portInput, 
+                        builder: (context, val, child)=> Text("$address:${val.text}")
+                      )
                     )
                   ),
                   Expanded(child: Container()),
