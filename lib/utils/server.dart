@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
@@ -20,17 +21,8 @@ class Server {
 
   late String webPath;
   late DynamicLibrary dynamicLib;
-  late StopServer stopServer;
 
   init() async {
-
-    
-    dynamicLib=DynamicLibrary.open(Platform.isMacOS ? 'libserver.dylib' : 'libserver.dll');
-    stopServer=dynamicLib
-    .lookup<NativeFunction<StopServerFunc>>('StopServer')
-    .asFunction();
-    
-
     String supportDir=(await getApplicationSupportDirectory()).path;
     webPath=p.join(supportDir, "dist");
 
@@ -38,7 +30,7 @@ class Server {
       "assets/dist/index.html",
       "assets/dist/vite.svg",
       "assets/dist/assets/index-BGsdZcFV.css",
-      "assets/dist/assets/index-DYG1QWfJ.js",
+      "assets/dist/assets/index-BKu-0aIs.js",
       "assets/dist/assets/primeicons-C6QP2o4f.woff2",
       "assets/dist/assets/primeicons-DMOk5skT.eot",
       "assets/dist/assets/primeicons-Dr5RGzOO.svg",
@@ -95,13 +87,12 @@ class Server {
     return directory.existsSync();
   }
 
-  late Isolate isolate;
+  Isolate? isolate;
   static void isolateFunction(List<String> params){
     final dynamicLib = DynamicLibrary.open(Platform.isMacOS ? 'libserver.dylib' : 'libserver.dll');
     StartServer startServer=dynamicLib
     .lookup<NativeFunction<StartServerFunc>>('StartServer')
     .asFunction();
-    // port *C.char, basePath *C.char, username *C.char, password *C.char, webPath *C.char
     startServer(params[0].toNativeUtf8(), params[1].toNativeUtf8(), params[2].toNativeUtf8(), params[3].toNativeUtf8(), params[4].toNativeUtf8());
   }
 
@@ -109,8 +100,19 @@ class Server {
     isolate=await Isolate.spawn(isolateFunction, [port, dir, username, password, webPath]);
   }
 
-  void stop(){
-    stopServer();
-    isolate.kill();
+  Future<void> stop() async {
+    if (isolate != null) {
+      await compute(stopHandler, Platform.isMacOS ? 'libserver.dylib' : 'libserver.dll');
+      isolate!.kill(priority: Isolate.immediate);
+      isolate = null;
+    }
+  }
+
+  static void stopHandler(String libName){
+    final lib = DynamicLibrary.open(libName);
+    final stop = lib
+        .lookup<NativeFunction<StopServerFunc>>('StopServer')
+        .asFunction<StopServer>();
+    stop();
   }
 }
