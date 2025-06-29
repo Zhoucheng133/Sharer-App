@@ -187,7 +187,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   ),
                   const SizedBox(width: 10,),
                   FilledButton(
-                    onPressed: () async {
+                    onPressed: running ? null : () async {
                       String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
                       if (selectedDirectory!=null) {
                         setState(() {
@@ -210,6 +210,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       style: GoogleFonts.notoSansSc(
                         fontSize: 14,
                       ),
+                      enabled: !running,
                       decoration: InputDecoration(
                         isCollapsed: true,
                         contentPadding: const EdgeInsets.all(10),
@@ -247,7 +248,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   Checkbox(
                     value: useAuth, 
                     splashRadius: 0,
-                    onChanged: (val){
+                    onChanged: running ? null : (val){
                       if(val!=null){
                         setState(() {
                           useAuth=val;
@@ -259,7 +260,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     }
                   ),
                   GestureDetector(
-                    onTap: (){
+                    onTap: running ? null : (){
                       setState(() {
                         useAuth=!useAuth;
                       });
@@ -267,9 +268,14 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         showAuthDialog();
                       }
                     },
-                    child: const MouseRegion(
+                    child: MouseRegion(
                       cursor: SystemMouseCursors.click,
-                      child: Text("启用登录")
+                      child: Text(
+                        "启用登录",
+                        style: GoogleFonts.notoSansSc(
+                          color: running ? Colors.grey[500] : Colors.black
+                        ),
+                      )
                     )
                   ),
                   Expanded(child: Container()),
