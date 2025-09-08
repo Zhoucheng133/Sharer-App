@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^6.2.1
+  msix: ^3.16.12
   package_info_plus: ^8.3.0
   path: ^1.9.0
   path_provider: ^2.1.5
@@ -26,3 +27,15 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+msix_config:
+  display_name: Sharer
+  publisher_display_name: ZhouCheng
+  identity_name: ZhouCheng.Sharer
+  msix_version: 2.0.4.0
+  logo_path: D:\Develop\Sharer-App\icon\icon.png
+  trim_logo: false
+  capabilities: internetClient, internetClientServer
+  languages: zh-cn
+  publisher: # Publisher HERE
+  store: true
