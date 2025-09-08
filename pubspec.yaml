@@ -33,7 +33,7 @@ msix_config:
   publisher_display_name: ZhouCheng
   identity_name: ZhouCheng.Sharer
   msix_version: 2.0.4.0
-  logo_path: D:\Develop\Sharer-App\icon\icon.png
+  logo_path: icon/icon.png
   trim_logo: false
   capabilities: internetClient, internetClientServer
   languages: zh-cn
