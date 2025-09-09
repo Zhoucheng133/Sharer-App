@@ -6,6 +6,8 @@
 
 ![License](https://img.shields.io/badge/License-MIT-dark_green)
 
+<a href="https://apps.microsoft.com/store/detail/9N4XJ4W1CH2H?cid=DevShareMCLPCS"><img src="demo/ms_badge.svg" width="150px"></a>
+
 这是一个用于将本机（Windows & Mac）作为文件服务器的App，可以在局域网内用各种设备通过网页访问
 
 ## 目录
