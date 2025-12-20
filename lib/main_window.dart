@@ -142,8 +142,8 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
               Expanded(child: DragToMoveArea(child: Container())),
               Platform.isWindows ? Row(
                 children: [
-                  WindowCaptionButton.minimize(onPressed: windowManager.minimize,),
-                  WindowCaptionButton.close(onPressed: windowManager.close,)
+                  WindowCaptionButton.minimize(onPressed: windowManager.minimize, brightness: Theme.of(context).brightness,),
+                  WindowCaptionButton.close(onPressed: windowManager.close, brightness: Theme.of(context).brightness,)
                 ],
               ) : Container()
             ],
