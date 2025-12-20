@@ -16,8 +16,7 @@
 
 - [简介](#简介)
 - [截图](#截图)
-- [在你的设备上构建Sharer-App](#在你的设备上构建sharer-app)
-- [更新日志](#更新日志)
+- [在你的设备上构建](#在你的设备上构建)
 
 ## 截图
 
@@ -31,11 +30,11 @@
 
 <img src="https://raw.githubusercontent.com/Zhoucheng133/Sharer-Core/refs/heads/main/demo/demo1.png"/>
 
-## 在你的设备上构建Sharer-App
+## 在你的设备上构建
 
 如果你需要手动构建Sharer-Core的动态库，你可以前往[Sharer-Core的仓库页面](https://github.com/Zhoucheng133/Sharer-Core)查看
 
-你需要在你的设备上安装Flutter (本项目使用的Flutter 3.24.5)
+你需要在你的设备上安装Flutter (本项目使用的Flutter `3.32`)
 
 ### 对于Windows系统
 
