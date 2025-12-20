@@ -274,14 +274,14 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       child: Text(
                         "useAuth".tr,
                         style: GoogleFonts.notoSansSc(
-                          color: running ? Colors.grey[500] : Colors.black
+                          color: running ? Colors.grey[500] : null
                         ),
                       )
                     )
                   ),
                   Expanded(child: Container()),
                   FilledButton(
-                    onPressed: useAuth ? () {
+                    onPressed: running ? null : useAuth ? () {
                       showAuthDialog();
                     } : null, 
                     child: Text('authConfig'.tr)
