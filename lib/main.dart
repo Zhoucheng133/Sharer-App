@@ -55,6 +55,7 @@ class _MainAppState extends State<MainApp> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate
       ],
+      translations: MainTranslations(),
       locale: Get.deviceLocale,
       supportedLocales: const [
         Locale('en', 'US'),
