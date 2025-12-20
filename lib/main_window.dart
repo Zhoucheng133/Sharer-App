@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sharer_app/utils/auth.dart';
@@ -93,12 +94,12 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           // ignore: use_build_context_synchronously
           context: context, 
           builder: (BuildContext context)=>AlertDialog(
-            title: const Text('服务在运行中'),
-            content: const Text('你需要先关闭服务才能退出'),
+            title: Text('serverRunninng'.tr),
+            content: Text('closeToQuit'.tr),
             actions: [
               FilledButton(
                 onPressed: ()=>Navigator.pop(context), 
-                child: const Text('好的')
+                child: Text('ok'.tr)
               )
             ],
           )
@@ -153,7 +154,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('分享路径:'),
+              Text('${"sharePath".tr}:'),
               const SizedBox(height: 5,),
               Row(
                 children: [
@@ -195,12 +196,12 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         });
                       }
                     }, 
-                    child: const Text('选取')
+                    child: Text('select'.tr)
                   )
                 ],
               ),
               const SizedBox(height: 10,),
-              const Text('端口:'),
+              Text('${"port".tr}:'),
               const SizedBox(height: 5,),
               Row(
                 children: [
@@ -271,7 +272,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     child: MouseRegion(
                       cursor: SystemMouseCursors.click,
                       child: Text(
-                        "启用登录",
+                        "useAuth".tr,
                         style: GoogleFonts.notoSansSc(
                           color: running ? Colors.grey[500] : Colors.black
                         ),
@@ -283,7 +284,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     onPressed: useAuth ? () {
                       showAuthDialog();
                     } : null, 
-                    child: const Text('用户设置')
+                    child: Text('authConfig'.tr)
                   )
                 ],
               ),
@@ -325,14 +326,14 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                               showDialog(
                                 context: context, 
                                 builder: (context)=>AlertDialog(
-                                  title: const Text('启动失败'),
-                                  content: const Text("没有选取路径或者路径不合法"),
+                                  title: Text('runFailed'.tr),
+                                  content: Text("pathErr".tr),
                                   actions: [
                                     FilledButton(
                                       onPressed: (){
                                         Navigator.pop(context);
                                       }, 
-                                      child: const Text('好的')
+                                      child: Text('ok'.tr)
                                     )
                                   ],
                                 )
@@ -343,14 +344,14 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                               showDialog(
                                 context: context, 
                                 builder: (context)=>AlertDialog(
-                                  title: const Text('启动失败'),
-                                  content: const Text("端口号不合法"),
+                                  title: Text('runFailed'.tr),
+                                  content: Text("invalidPort".tr),
                                   actions: [
                                     FilledButton(
                                       onPressed: (){
                                         Navigator.pop(context);
                                       }, 
-                                      child: const Text('好的')
+                                      child: Text('ok'.tr)
                                     )
                                   ],
                                 )
@@ -361,14 +362,14 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                               showDialog(
                                 context: context, 
                                 builder: (context)=>AlertDialog(
-                                  title: const Text('启动失败'),
-                                  content: const Text("端口冲突，你需要更换端口号"),
+                                  title: Text('runFailed'.tr),
+                                  content: Text("portErr".tr),
                                   actions: [
                                     FilledButton(
                                       onPressed: (){
                                         Navigator.pop(context);
                                       }, 
-                                      child: const Text('好的')
+                                      child: Text('ok'.tr)
                                     )
                                   ],
                                 )

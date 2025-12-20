@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Auth {
@@ -16,7 +17,7 @@ Future<Auth> authDialog(BuildContext context, String usernameIn, String password
   await showDialog(
     context: context, 
     builder: (context)=>AlertDialog(
-      title: const Text("用户设置"),
+      title: Text("authConfig".tr),
       content: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState){
           return Column(
@@ -33,7 +34,7 @@ Future<Auth> authDialog(BuildContext context, String usernameIn, String password
                           ),
                           controller: usernameInput,
                           decoration: InputDecoration(
-                            labelText: "用户名",
+                            labelText: "username".tr,
                             isCollapsed: true,
                             contentPadding: const EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 10),
                             enabledBorder: OutlineInputBorder(
@@ -66,7 +67,7 @@ Future<Auth> authDialog(BuildContext context, String usernameIn, String password
                           controller: passwordInput,
                           obscureText: true,
                           decoration: InputDecoration(
-                            labelText: "密码",
+                            labelText: "password".tr,
                             isCollapsed: true,
                             contentPadding: const EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 10),
                             enabledBorder: OutlineInputBorder(
@@ -101,7 +102,7 @@ Future<Auth> authDialog(BuildContext context, String usernameIn, String password
             usernameInput.text="";
             passwordInput.text="";
           }, 
-          child: const Text('取消')
+          child: Text('cancel'.tr)
         ),
         FilledButton(
           onPressed: (){
@@ -109,14 +110,14 @@ Future<Auth> authDialog(BuildContext context, String usernameIn, String password
               showDialog(
                 context: context, 
                 builder: (context)=>AlertDialog(
-                  title: const Text("用户设置失败"),
-                  content: const Text('用户名和密码不能为空'),
+                  title: Text("configErr".tr),
+                  content: Text('emptyUsernamePassword'.tr),
                   actions: [
                     FilledButton(
                       onPressed: (){
                         Navigator.pop(context);
                       }, 
-                      child: const Text('好的')
+                      child: Text('ok'.tr)
                     )
                   ],
                 )
@@ -125,7 +126,7 @@ Future<Auth> authDialog(BuildContext context, String usernameIn, String password
               Navigator.pop(context);
             }
           },
-          child: const Text('完成')
+          child: Text('ok'.tr)
         )
       ],
     )
