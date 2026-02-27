@@ -103,7 +103,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 controller: controller.username,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue[100]!, width: 1.0),
+                    borderSide: BorderSide(color: Colors.blue[900]!.withAlpha(100), width: 1.0),
                     borderRadius: BorderRadius.circular(10)
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -112,7 +112,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   ),
                   isCollapsed: true,
                   labelText: "username".tr,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
                   hintStyle: TextStyle(
                     color: Colors.grey[400]
                   )
@@ -128,7 +128,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 controller: controller.password,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue[100]!, width: 1.0),
+                    borderSide: BorderSide(color: Colors.blue[900]!.withAlpha(100), width: 1.0),
                     borderRadius: BorderRadius.circular(10)
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -137,7 +137,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   ),
                   labelText: "password".tr,
                   isCollapsed: true,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
                   hintStyle: TextStyle(
                     color: Colors.grey[400]
                   )
@@ -205,13 +205,13 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                             decoration: InputDecoration(
                               hintText: 'sharePath'.tr,
                               isCollapsed: true,
-                              contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue[100]!, width: 1.0),
+                                borderSide: BorderSide(color: Colors.blue[900]!.withAlpha(100), width: 1.0),
                                 borderRadius: BorderRadius.circular(10)
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue[100]!, width: 1.0),
+                                borderSide: BorderSide(color: Colors.blue[900]!.withAlpha(100), width: 1.0),
                                 borderRadius: BorderRadius.circular(10)
                               ),
                             ),
@@ -248,7 +248,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     controller: controller.sharePort,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue[100]!, width: 1.0),
+                        borderSide: BorderSide(color: Colors.blue[900]!.withAlpha(100), width: 1.0),
                         borderRadius: BorderRadius.circular(10)
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -260,7 +260,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         borderRadius: BorderRadius.circular(10)
                       ),
                       isCollapsed: true,
-                      contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10)
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                     ),
                     autocorrect: false,
                     enableSuggestions: false,
