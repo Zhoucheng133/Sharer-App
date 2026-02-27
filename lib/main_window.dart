@@ -103,11 +103,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 controller: controller.username,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue[900]!.withAlpha(100), width: 1.0),
+                    borderSide: BorderSide(color: Colors.blue[800]!.withAlpha(100), width: 1.0),
                     borderRadius: BorderRadius.circular(10)
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue[900]!, width: 2.0),
+                    borderSide: BorderSide(color: Colors.blue[800]!, width: 2.0),
                     borderRadius: BorderRadius.circular(10)
                   ),
                   isCollapsed: true,
@@ -128,11 +128,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 controller: controller.password,
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue[900]!.withAlpha(100), width: 1.0),
+                    borderSide: BorderSide(color: Colors.blue[800]!.withAlpha(100), width: 1.0),
                     borderRadius: BorderRadius.circular(10)
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue[900]!, width: 2.0),
+                    borderSide: BorderSide(color: Colors.blue[800]!, width: 2.0),
                     borderRadius: BorderRadius.circular(10)
                   ),
                   labelText: "password".tr,
@@ -207,11 +207,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                               isCollapsed: true,
                               contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue[900]!.withAlpha(100), width: 1.0),
+                                borderSide: BorderSide(color: Colors.blue[800]!.withAlpha(100), width: 1.0),
                                 borderRadius: BorderRadius.circular(10)
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue[900]!.withAlpha(100), width: 1.0),
+                                borderSide: BorderSide(color: Colors.blue[800]!.withAlpha(100), width: 1.0),
                                 borderRadius: BorderRadius.circular(10)
                               ),
                             ),
@@ -248,11 +248,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     controller: controller.sharePort,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue[900]!.withAlpha(100), width: 1.0),
+                        borderSide: BorderSide(color: Colors.blue[800]!.withAlpha(100), width: 1.0),
                         borderRadius: BorderRadius.circular(10)
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.blue[900]!, width: 2.0),
+                        borderSide: BorderSide(color: Colors.blue[800]!, width: 2.0),
                         borderRadius: BorderRadius.circular(10)
                       ),
                       disabledBorder: OutlineInputBorder(
