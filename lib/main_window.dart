@@ -4,11 +4,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sharer_app/utils/auth.dart';
+import 'package:sharer_app/controllers/controller.dart';
+import 'package:sharer_app/utils/dialogs.dart';
 import 'package:sharer_app/utils/server.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainWindow extends StatefulWidget {
   const MainWindow({super.key});
@@ -21,80 +21,17 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
 
   final server=Server();
 
-  late SharedPreferences prefs;
-
-  final pathInput=TextEditingController();
-  final portInput=TextEditingController();
-  String usernameInput="";
-  String passwordInput="";
-  bool useAuth=false;
-  String address="";
-
-  bool running=false;
-
-  Future<void> init() async {
-    prefs=await SharedPreferences.getInstance();
-    await windowManager.setPreventClose(true);
-    final port=prefs.getString('port');
-    final path=prefs.getString('path');
-    final username=prefs.getString('username');
-    final password=prefs.getString('password');
-    if(port!=null && port.isNotEmpty){
-      setState(() {
-        portInput.text=port;
-      });
-    }else{
-      setState(() {
-        portInput.text="8080";
-      });
-    }
-    if(path!=null && path.isNotEmpty){
-      setState(() {
-        pathInput.text=path;
-      });
-    }
-    if(username!=null && password!=null && username.isNotEmpty && password.isNotEmpty){
-      setState(() {
-        usernameInput=username;
-        passwordInput=password;
-        useAuth=true;
-      });
-    }
-  }
-
-  Future<void> getAddress() async {
-    final interfaces = await NetworkInterface.list();
-    for (final interface in interfaces) {
-      final addresses = interface.addresses;
-      final localAddresses = addresses.where((address) => !address.isLoopback && address.type.name=="IPv4");
-      for (final localAddress in localAddresses) {
-        setState(() {
-          address=localAddress.address;
-        });
-        return;
-      }
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    init();
-    getAddress();
-    windowManager.addListener(this);
-  }
-
   @override
   void onWindowClose() async {
     bool isPreventClose = await windowManager.isPreventClose();
     if (isPreventClose) {
-      if(running){
+      if(controller.running.value){
         showDialog(
           // ignore: use_build_context_synchronously
           context: context, 
           builder: (BuildContext context)=>AlertDialog(
-            title: Text('serverRunninng'.tr),
-            content: Text('closeToQuit'.tr),
+            title: Text('serviceRunning'.tr),
+            content: Text('youNeedToStop'.tr),
             actions: [
               FilledButton(
                 onPressed: ()=>Navigator.pop(context), 
@@ -110,23 +47,125 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     }
   }
 
- @override
+  @override
+  void initState() {
+    super.initState();
+    windowManager.addListener(this);
+  }
+
+  @override
   void dispose() {
     windowManager.removeListener(this);
     super.dispose();
   }
 
-  Future<void> showAuthDialog() async {
-    final data=await authDialog(context, usernameInput, passwordInput);
-    setState(() {
-      usernameInput=data.username;
-      passwordInput=data.password;
-    });
-    if(usernameInput.isEmpty && passwordInput.isEmpty){
-      setState(() {
-        useAuth=false;
-      });
-    }
+  final controller=Get.find<Controller>();
+
+  Future<void> auth(BuildContext context) async {
+    await showDialog(
+      context: context, 
+      barrierDismissible: false, 
+      builder: (context)=>AlertDialog(
+        title: Text('auth'.tr),
+        titlePadding: const EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 0),
+        contentPadding: const EdgeInsets.only(left: 24, right: 24, top: 5, bottom: 0),
+        actionsPadding: const EdgeInsets.only(left: 24, right: 24, top: 10, bottom: 20),
+        content: Obx(
+          ()=> Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Transform.translate(
+                offset: const Offset(-10, 0),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      splashRadius: 0,
+                      value: controller.anonymous.value, 
+                      onChanged: (val){
+                        setState(() {
+                          controller.anonymous.value=val!;
+                        });
+                      }
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          controller.anonymous.value=!controller.anonymous.value;
+                        });
+                      },
+                      child: Text('anonymousAccess'.tr)
+                    )
+                  ],
+                ),
+              ),
+              if(!controller.anonymous.value) const SizedBox(height: 5,),
+              if(!controller.anonymous.value) TextField(
+                controller: controller.username,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue[100]!, width: 1.0),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue[900]!, width: 2.0),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  isCollapsed: true,
+                  labelText: "username".tr,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+                  hintStyle: TextStyle(
+                    color: Colors.grey[400]
+                  )
+                ),
+                autocorrect: false,
+                enableSuggestions: false,
+                style: const TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+              if(!controller.anonymous.value) const SizedBox(height: 15,),
+              if(!controller.anonymous.value) TextField(
+                controller: controller.password,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue[100]!, width: 1.0),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue[900]!, width: 2.0),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  labelText: "password".tr,
+                  isCollapsed: true,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+                  hintStyle: TextStyle(
+                    color: Colors.grey[400]
+                  )
+                ),
+                obscureText: true,
+                autocorrect: false,
+                enableSuggestions: false,
+                style: const TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          FilledButton(
+            onPressed: (){
+              if(!controller.anonymous.value && (controller.username.text.isEmpty || controller.password.text.isEmpty)){
+                showErr(context, "setFailed".tr, "usernamePasswordEmpty".tr);
+                return;
+              }
+              Navigator.pop(context);
+            }, 
+            child: Text('ok'.tr)
+          )
+        ],
+      )
+    );
   }
 
   @override
@@ -134,272 +173,190 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     return Column(
       children: [
         Container(
-          color: Colors.transparent,
           height: 30,
-          child: Row(
+          color: Colors.transparent,
+          child: Platform.isWindows ? Row(
             children: [
               Expanded(child: DragToMoveArea(child: Container())),
-              Platform.isWindows ? Row(
-                children: [
-                  WindowCaptionButton.minimize(onPressed: windowManager.minimize, brightness: Theme.of(context).brightness,),
-                  WindowCaptionButton.close(onPressed: windowManager.close, brightness: Theme.of(context).brightness,)
-                ],
-              ) : Container()
+              WindowCaptionButton.minimize(onPressed: ()=>windowManager.minimize(),),
+              WindowCaptionButton.close(onPressed: ()=>windowManager.close(),)
             ],
-          ),
+          ) : DragToMoveArea(child: Container())
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('${"sharePath".tr}:'),
-              const SizedBox(height: 5,),
-              Row(
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+            child: Obx(
+              ()=> Column(
                 children: [
-                  Expanded(
-                    child: Tooltip(
-                      message: pathInput.text,
-                      child: TextField(
-                        enabled: false,
-                        controller: pathInput,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
-                        decoration: InputDecoration(
-                          isCollapsed: true,
-                          contentPadding: const EdgeInsets.all(10),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Color.fromARGB(255, 52, 93, 136), width: 1.0),
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Color.fromARGB(255, 52, 93, 136), width: 2.0),
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                          disabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey[400]!, width: 1.0),
-                            borderRadius: BorderRadius.circular(10)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('sharePath'.tr)
+                  ),
+                  const SizedBox(height: 5,),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Tooltip(
+                          message: controller.sharePath.text,
+                          child: TextField(
+                            controller: controller.sharePath,
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              hintText: 'sharePath'.tr,
+                              isCollapsed: true,
+                              contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue[100]!, width: 1.0),
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blue[100]!, width: 1.0),
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                            ),
+                            autocorrect: false,
+                            enableSuggestions: false,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 10,),
-                  FilledButton(
-                    onPressed: running ? null : () async {
-                      String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
-                      if (selectedDirectory!=null) {
-                        setState(() {
-                          pathInput.text=selectedDirectory;
-                        });
-                      }
-                    }, 
-                    child: Text('select'.tr)
-                  )
-                ],
-              ),
-              const SizedBox(height: 10,),
-              Text('${"port".tr}:'),
-              const SizedBox(height: 5,),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: portInput,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
-                      enabled: !running,
-                      decoration: InputDecoration(
-                        isCollapsed: true,
-                        contentPadding: const EdgeInsets.all(10),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Color.fromARGB(255, 52, 93, 136), width: 1.0),
-                          borderRadius: BorderRadius.circular(10)
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Color.fromARGB(255, 52, 93, 136), width: 2.0),
-                          borderRadius: BorderRadius.circular(10)
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey[400]!, width: 1.0),
-                          borderRadius: BorderRadius.circular(10)
-                        ),
-                      ),
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        TextInputFormatter.withFunction((oldValue, newValue){
-                          if(newValue.text.length>5){
-                            return oldValue;
-                          }
-                          return newValue;
-                        })
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10,),
-              Row(
-                children: [
-                  Checkbox(
-                    value: useAuth, 
-                    splashRadius: 0,
-                    onChanged: running ? null : (val){
-                      if(val!=null){
-                        setState(() {
-                          useAuth=val;
-                        });
-                        if(val==true){
-                          showAuthDialog();
-                        }
-                      }
-                    }
-                  ),
-                  GestureDetector(
-                    onTap: running ? null : (){
-                      setState(() {
-                        useAuth=!useAuth;
-                      });
-                      if(useAuth==true){
-                        showAuthDialog();
-                      }
-                    },
-                    child: MouseRegion(
-                      child: Text(
-                        "useAuth".tr,
-                        style: TextStyle(
-                          color: running ? Colors.grey[500] : null
-                        ),
-                      )
-                    )
-                  ),
-                  Expanded(child: Container()),
-                  FilledButton(
-                    onPressed: running ? null : useAuth ? () {
-                      showAuthDialog();
-                    } : null, 
-                    child: Text('authConfig'.tr)
-                  )
-                ],
-              ),
-              const SizedBox(height: 10,),
-              const SizedBox(height: 20,),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.podcasts_rounded,
-                  ),
-                  const SizedBox(width: 5,),
-                  GestureDetector(
-                    onTap: () async {
-                      if(running){
-                        try {
-                          await launchUrl(Uri.parse("http://$address:${portInput.text}"));
-                        } catch (_) {}
-                      }
-                    },
-                    child: MouseRegion(
-                      cursor: running ? SystemMouseCursors.click : SystemMouseCursors.forbidden ,
-                      // child: Text("$address:${portInput.text}")
-                      child: ValueListenableBuilder(
-                        valueListenable: portInput, 
-                        builder: (context, val, child)=> Text("$address:${val.text}")
-                      )
-                    )
-                  ),
-                  Expanded(child: Container()),
-                  Transform.scale(
-                    scale: 0.8,
-                    child: Switch(
-                      mouseCursor: SystemMouseCursors.basic,
-                      value: running, 
-                      splashRadius: 0,
-                      onChanged: (val) async {
-                        if(val){
-                          if(pathInput.text.isEmpty || !server.dirCheck(pathInput.text)){
-                            if(context.mounted){
-                              showDialog(
-                                context: context, 
-                                builder: (context)=>AlertDialog(
-                                  title: Text('runFailed'.tr),
-                                  content: Text("pathErr".tr),
-                                  actions: [
-                                    FilledButton(
-                                      onPressed: (){
-                                        Navigator.pop(context);
-                                      }, 
-                                      child: Text('ok'.tr)
-                                    )
-                                  ],
-                                )
-                              );
-                            }
-                          }else if(portInput.text.isEmpty){
-                            if(context.mounted){
-                              showDialog(
-                                context: context, 
-                                builder: (context)=>AlertDialog(
-                                  title: Text('runFailed'.tr),
-                                  content: Text("invalidPort".tr),
-                                  actions: [
-                                    FilledButton(
-                                      onPressed: (){
-                                        Navigator.pop(context);
-                                      }, 
-                                      child: Text('ok'.tr)
-                                    )
-                                  ],
-                                )
-                              );
-                            }
-                          }else if(!(await server.portCheck(portInput.text))){
-                            if(context.mounted){
-                              showDialog(
-                                context: context, 
-                                builder: (context)=>AlertDialog(
-                                  title: Text('runFailed'.tr),
-                                  content: Text("portErr".tr),
-                                  actions: [
-                                    FilledButton(
-                                      onPressed: (){
-                                        Navigator.pop(context);
-                                      }, 
-                                      child: Text('ok'.tr)
-                                    )
-                                  ],
-                                )
-                              );
-                            }
-                          }else{
-                            server.run(portInput.text, pathInput.text, useAuth ? usernameInput : "", useAuth ? passwordInput : "");
-                            prefs.setString("port", portInput.text);
-                            prefs.setString("path", pathInput.text);
-                            if(!useAuth){
-                              prefs.setString("username", "");
-                              prefs.setString("password", "");
-                            }
+                      const SizedBox(width: 10,),
+                      FilledButton(
+                        onPressed: controller.running.value ? null : () async {
+                          String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+                          if(selectedDirectory!=null){
                             setState(() {
-                              running=true;
+                              controller.sharePath.text=selectedDirectory;
                             });
                           }
-                        }else{
-                          server.stop();
-                          setState(() {
-                            running=false;
-                          });
-                        }
-                      }
+                        }, 
+                        child: Text('select'.tr)
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 15,),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('port'.tr)
+                  ),
+                  const SizedBox(height: 5,),
+                  TextField(
+                    enabled: !controller.running.value,
+                    controller: controller.sharePort,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue[100]!, width: 1.0),
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue[900]!, width: 2.0),
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey[300]!, width: 1.0),
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      isCollapsed: true,
+                      contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10)
                     ),
-                  )
+                    autocorrect: false,
+                    enableSuggestions: false,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                  ),
+                  const SizedBox(height: 15,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton(
+                        onPressed: controller.running.value ? null : ()=>auth(context), 
+                        child: Text('authSetting'.tr)
+                      ),
+                      const SizedBox(width: 10,),
+                      if(controller.anonymous.value) Tooltip(
+                        message: 'anonymousAccess'.tr,
+                        child: const Icon(Icons.info_outline_rounded, size: 20,),
+                      ),
+                      Expanded(child: Container()),
+                      PopupMenuButton<LanguageType>(
+                        borderRadius: BorderRadius.circular(18),
+                        tooltip: 'language'.tr,
+                        icon: const Icon(Icons.translate_rounded),
+                        iconSize: 20,
+                        itemBuilder: (context)=>supportedLocales.map((e) {
+                          return PopupMenuItem<LanguageType>(
+                            value: e,
+                            child: Text(e.name),
+                          );
+                        }).toList(),
+                        onSelected: (LanguageType value){
+                          int index=supportedLocales.indexWhere((element) => element.locale==value.locale);
+                          controller.changeLanguage(index);
+                        },
+                      )
+                    ],
+                  ),
+                  Expanded(child: Container()),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.podcasts_rounded,
+                      ),
+                      const SizedBox(width: 5,),
+                      Tooltip(
+                        message: "clickToOpen".tr,
+                        child: MouseRegion(
+                          cursor: controller.running.value ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
+                          child: GestureDetector(
+                            onTap: () async {
+                              if(controller.running.value){
+                                try {
+                                  await launchUrl(Uri.parse("http://${controller.address.value}:${controller.sharePort.text}"));
+                                } catch (_) {}
+                              }
+                            },
+                            child: ValueListenableBuilder(
+                              valueListenable: controller.sharePort, 
+                              builder: (context, value, child)=>Text("${controller.address.value}:${value.text}")
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Container()),
+                      Transform.scale(
+                        scale: 0.8,
+                        child: Switch(
+                          mouseCursor: SystemMouseCursors.basic,
+                          splashRadius: 0,
+                          value: controller.running.value, 
+                          onChanged: (val) async {
+                            if(controller.running.value){
+                              server.stop();
+                              controller.running.value=false;
+                            }else{
+                              if(await server.checkRun(context, controller.sharePort.text, controller.sharePath.text)){
+                                controller.running.value=true;
+                                server.run(!controller.anonymous.value ? controller.username.text : "", !controller.anonymous.value ? controller.password.text : "", controller.sharePort.text, controller.sharePath.text);
+                              }
+                            }
+                          }
+                        ),
+                      )
+                    ]
+                  ),
+                  const SizedBox(height: 20,),
                 ],
-              )
-            ],
+              ),
+            ),
           ),
-        )
+        ),
       ],
     );
   }
