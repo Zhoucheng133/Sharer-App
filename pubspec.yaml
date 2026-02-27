@@ -14,7 +14,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   get: ^4.7.3
-  google_fonts: ^6.2.1
   msix: ^3.16.12
   package_info_plus: ^8.3.0
   path: ^1.9.0
@@ -30,6 +29,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: "PuHui"
+      fonts:
+        - asset: fonts/AlibabaPuHuiTi-3-Regular.ttf
 
 msix_config:
   display_name: Sharer

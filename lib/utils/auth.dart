@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Auth {
   late String username;
@@ -29,7 +28,7 @@ Future<Auth> authDialog(BuildContext context, String usernameIn, String password
                     children: [
                       Expanded(
                         child: TextField(
-                          style: GoogleFonts.notoSansSc(
+                          style: const TextStyle(
                             fontSize: 14,
                           ),
                           controller: usernameInput,
@@ -61,7 +60,7 @@ Future<Auth> authDialog(BuildContext context, String usernameIn, String password
                     children: [
                       Expanded(
                         child: TextField(
-                          style: GoogleFonts.notoSansSc(
+                          style: const TextStyle(
                             fontSize: 14,
                           ),
                           controller: passwordInput,

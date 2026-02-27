@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sharer_app/utils/auth.dart';
 import 'package:sharer_app/utils/server.dart';
@@ -164,7 +163,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       child: TextField(
                         enabled: false,
                         controller: pathInput,
-                        style: GoogleFonts.notoSansSc(
+                        style: const TextStyle(
                           fontSize: 14,
                         ),
                         decoration: InputDecoration(
@@ -208,7 +207,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   Expanded(
                     child: TextField(
                       controller: portInput,
-                      style: GoogleFonts.notoSansSc(
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                       enabled: !running,
@@ -270,10 +269,9 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       }
                     },
                     child: MouseRegion(
-                      cursor: SystemMouseCursors.click,
                       child: Text(
                         "useAuth".tr,
-                        style: GoogleFonts.notoSansSc(
+                        style: TextStyle(
                           color: running ? Colors.grey[500] : null
                         ),
                       )
@@ -317,6 +315,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   Transform.scale(
                     scale: 0.8,
                     child: Switch(
+                      mouseCursor: SystemMouseCursors.basic,
                       value: running, 
                       splashRadius: 0,
                       onChanged: (val) async {

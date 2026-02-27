@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sharer_app/lang/en_us.dart';
 import 'package:sharer_app/lang/zh_cn.dart';
 import 'package:sharer_app/lang/zh_tw.dart';
@@ -64,18 +63,20 @@ class _MainAppState extends State<MainApp> {
       ],
       fallbackLocale: const Locale('en', 'US'),
       debugShowCheckedModeBanner: false,
-      theme: brightness==Brightness.dark ? ThemeData.dark().copyWith(
-        textTheme: GoogleFonts.notoSansScTextTheme().apply(
-          bodyColor: Colors.white,
-          displayColor: Colors.white, 
-        ),
+      theme: ThemeData(
+        brightness: brightness==Brightness.dark ? Brightness.dark : Brightness.light,
+        fontFamily: 'PuHui', 
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,
-          brightness: Brightness.dark,
+          brightness: brightness==Brightness.dark ? Brightness.dark : Brightness.light,
         ),
-      ) : ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        textTheme: GoogleFonts.notoSansScTextTheme(),
+        textTheme: brightness==Brightness.dark ? ThemeData.dark().textTheme.apply(
+          fontFamily: 'PuHui',
+          bodyColor: Colors.white,
+          displayColor: Colors.white,
+        ) : ThemeData.light().textTheme.apply(
+          fontFamily: 'PuHui',
+        ),
       ),
       home: const Scaffold(
         body: MainWindow()
