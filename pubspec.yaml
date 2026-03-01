@@ -38,7 +38,7 @@ msix_config:
   display_name: Sharer
   publisher_display_name: ZhouCheng
   identity_name: ZhouCheng.Sharer
-  msix_version: 2.0.6.0
+  msix_version: 2.1.0.0
   logo_path: icon/icon.png
   trim_logo: false
   capabilities: internetClient, internetClientServer
