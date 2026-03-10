@@ -207,11 +207,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                               isCollapsed: true,
                               contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue[800]!.withAlpha(100), width: 1.0),
+                                borderSide: BorderSide(color: Colors.blue[800]!.withAlpha(50), width: 1.0),
                                 borderRadius: BorderRadius.circular(10)
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blue[800]!.withAlpha(100), width: 1.0),
+                                borderSide: BorderSide(color: Colors.blue[800]!.withAlpha(50), width: 1.0),
                                 borderRadius: BorderRadius.circular(10)
                               ),
                             ),
