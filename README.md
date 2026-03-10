@@ -12,6 +12,9 @@
 
 这是一个用于将本机（Windows & Mac）作为文件服务器的App，可以在局域网内用各种设备通过网页访问
 
+核心组件在这里：[Sharer-Core](https://github.com/Zhoucheng133/Sharer-Core)  
+前端页面在这里：[Sharer-Web](https://github.com/Zhoucheng133/Sharer-Web)
+
 ## 目录
 
 - [简介](#简介)
@@ -34,7 +37,7 @@
 
 如果你需要手动构建Sharer-Core的动态库，你可以前往[Sharer-Core的仓库页面](https://github.com/Zhoucheng133/Sharer-Core)查看
 
-你需要在你的设备上安装Flutter (本项目使用的Flutter `3.32`)
+你需要在你的设备上安装Flutter (本项目使用的Flutter `3.41`)
 
 ### 对于Windows系统
 
