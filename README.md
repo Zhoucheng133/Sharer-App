@@ -34,9 +34,9 @@ Also available in English. Click [HERE](/documents/en.md) to view the English ve
 > [!NOTE]
 > 前端页面的语言跟随系统而不是App本体
 
-<img src="demo/cn/2.png" width=500/>
+<img src="demo/cn/2.png"/>
 
-<img src="demo/cn/3.png" width=500/>
+<img src="demo/cn/3.png"/>
 
 ## 在你的设备上构建
 
