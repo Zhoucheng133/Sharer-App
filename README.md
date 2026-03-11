@@ -1,5 +1,7 @@
 # Sharer-App
 
+Also available in English. Click [HERE](/documents/en.md) to view the English version of the README
+
 ## 简介
 
 <img src="icon/icon.png" height=100/>
@@ -25,13 +27,16 @@
 
 ### App
 
-<img src="icon/demo.png" height=300/>
+<img src="demo/cn/1.png" width=500/>
 
 ### 页面
 
-<img src="https://raw.githubusercontent.com/Zhoucheng133/Sharer-Core/refs/heads/main/demo/demo0.png"/>
+> [!NOTE]
+> 前端页面的语言跟随系统而不是App本体
 
-<img src="https://raw.githubusercontent.com/Zhoucheng133/Sharer-Core/refs/heads/main/demo/demo1.png"/>
+<img src="demo/cn/2.png" width=500/>
+
+<img src="demo/cn/3.png" width=500/>
 
 ## 在你的设备上构建
 
@@ -41,10 +46,11 @@
 
 ### 对于Windows系统
 
-你需要先使用`flutter build windows`生成App，然后将动态库复制到App的目录（你可以前往[Sharer-Core](https://github.com/Zhoucheng133/Sharer-Core)仓库中下载），**注意把它重命名为`libserver.dll`**）
+你需要先使用`flutter build windows`生成App，然后将动态库复制到App的目录（如何构建Windows动态库见[Sharer-Core](https://github.com/Zhoucheng133/Sharer-Core)仓库），**注意把它重命名为`libserver.dll`**）
 
 ### 对于macOS系统
-1. 你需要提前把动态库文件复制到`/macos`这个文件夹中（你可以前往[Sharer-Core](https://github.com/Zhoucheng133/Sharer-Core)仓库中下载），**注意把它重命名为`libserver.dylib`**）。**`macos`文件夹中已有这个动态库，如果你想手动构建动态库请替换它，不想手动构建可以直接使用仓库内的**
+1. 你需要提前把动态库文件复制到`/macos`这个文件夹中（如何构建macOS动态库见[Sharer-Core](https://github.com/Zhoucheng133/Sharer-Core)仓库），**注意把它重命名为`libserver.dylib`**）。  
+   **`macos`文件夹中已有这个动态库，如果你想手动构建动态库请替换它，不想手动构建可以直接使用仓库内的**
 
 2. 使用`flutter build macos`构建Sharer App即可
 
