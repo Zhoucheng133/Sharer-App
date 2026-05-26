@@ -28,7 +28,7 @@ Frontend page: [Sharer-Web](https://github.com/Zhoucheng133/Sharer-Web)
 ### Web Page
 
 > [!NOTE]
-> The language of the frontend page follows the system language rather than the App itself.
+> The language of the frontend page follows the brower's language.
 
 <img src="../demo/en/2.png" width=500/>
 

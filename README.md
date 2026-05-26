@@ -32,7 +32,7 @@ Also available in English. Click [HERE](/documents/en.md) to view the English ve
 ### 页面
 
 > [!NOTE]
-> 前端页面的语言跟随系统而不是App本体
+> 前端页面的语言跟随浏览器语言
 
 <img src="demo/cn/2.png"/>
 
