@@ -8,7 +8,9 @@
   <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
-This is an app that turns your local machine (Windows & Mac) into a file server, allowing various devices to access files via a web browser within the local area network (LAN).
+This is an app that turns your local machine (Windows & Mac) into a file server, allowing various devices to access files via a web browser within the local area network (LAN). If you're looking for the mobile version, please visit the [Sharer Mobile](https://github.com/Zhoucheng133/Sharer-Mobile) repository.
+
+**★ Sharer** | **[Sharer Mobile](https://github.com/Zhoucheng133/Sharer-Mobile)**
 
 Core component: [Sharer-Core](https://github.com/Zhoucheng133/Sharer-Core)  
 Frontend page: [Sharer-Web](https://github.com/Zhoucheng133/Sharer-Web)

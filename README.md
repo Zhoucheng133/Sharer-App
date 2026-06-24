@@ -12,7 +12,9 @@ Also available in English. Click [HERE](/documents/en.md) to view the English ve
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
 
-这是一个用于将本机（Windows & Mac）作为文件服务器的App，可以在局域网内用各种设备通过网页访问
+这是一个用于将本机（Windows & Mac）作为文件服务器的App，可以在局域网内用各种设备通过网页访问，如果你要查找移动版本，应该访问[Sharer Mobile](https://github.com/Zhoucheng133/Sharer-Mobile)仓库
+
+**★ Sharer** | **[Sharer Mobile](https://github.com/Zhoucheng133/Sharer-Mobile)**
 
 核心组件在这里：[Sharer-Core](https://github.com/Zhoucheng133/Sharer-Core)  
 前端页面在这里：[Sharer-Web](https://github.com/Zhoucheng133/Sharer-Web)
