@@ -22,32 +22,6 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   final server=Server();
 
   @override
-  void onWindowClose() async {
-    bool isPreventClose = await windowManager.isPreventClose();
-    if (isPreventClose) {
-      if(controller.running.value){
-        showDialog(
-          // ignore: use_build_context_synchronously
-          context: context, 
-          builder: (BuildContext context)=>AlertDialog(
-            title: Text('serviceRunning'.tr),
-            content: Text('youNeedToStop'.tr),
-            actions: [
-              FilledButton(
-                onPressed: ()=>Navigator.pop(context), 
-                child: Text('ok'.tr)
-              )
-            ],
-          )
-        );
-      }else{
-        await windowManager.setPreventClose(false);
-        await windowManager.close();
-      }
-    }
-  }
-
-  @override
   void initState() {
     super.initState();
     windowManager.addListener(this);
