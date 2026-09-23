@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -284,22 +285,64 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         Icons.podcasts_rounded,
                       ),
                       const SizedBox(width: 5,),
-                      Tooltip(
-                        message: "clickToOpen".tr,
-                        child: MouseRegion(
-                          cursor: controller.running.value ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
-                          child: GestureDetector(
-                            onTap: () async {
-                              if(controller.running.value){
-                                try {
-                                  await launchUrl(Uri.parse("http://${controller.address.value}:${controller.sharePort.text}"));
-                                } catch (_) {}
+                      MouseRegion(
+                        cursor: controller.running.value ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
+                        child: GestureDetector(
+                          onTapDown: (details) async {
+                            if(!controller.running.value) return;
+                            final tapPosition = details.globalPosition;
+                            String? val=await showMenu(
+                              position: RelativeRect.fromLTRB(
+                                tapPosition.dx,
+                                tapPosition.dy,
+                                tapPosition.dx,
+                                tapPosition.dy,
+                              ),
+                              context: context, 
+                              items: [
+                                PopupMenuItem(
+                                  value: "open",
+                                  height: 40,
+                                  child: Row(
+                                    mainAxisSize: .min,
+                                    spacing: 5,
+                                    children: [
+                                      const Icon(Icons.link_rounded),
+                                      Text('open'.tr),
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: "copy",
+                                  height: 40,
+                                  child: Row(
+                                    mainAxisSize: .min,
+                                    spacing: 5,
+                                    children: [
+                                      const Icon(Icons.copy_rounded),
+                                      Text('copy'.tr),
+                                    ],
+                                  ),
+                                ),
+                              ]
+                            );
+                            if(val=="open"){
+                              await launchUrl(Uri.parse("http://${controller.address.value}:${controller.sharePort.text}"));
+                            }else if(val=="copy"){
+                              FlutterClipboard.copy("${controller.address.value}:${controller.sharePort.text}");
+                              if(context.mounted){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("copyed".tr),
+                                    duration: const Duration(milliseconds: 500),
+                                  ),
+                                );
                               }
-                            },
-                            child: ValueListenableBuilder(
-                              valueListenable: controller.sharePort, 
-                              builder: (context, value, child)=>Text("${controller.address.value}:${value.text}")
-                            ),
+                            }
+                          },
+                          child: ValueListenableBuilder(
+                            valueListenable: controller.sharePort, 
+                            builder: (context, value, child)=>Text("${controller.address.value}:${value.text}")
                           ),
                         ),
                       ),

@@ -16,4 +16,7 @@ const Map<String, String> zhCN = {
   'youNeedToStop': '你需要先关闭服务才能退出',
   'language': '语言',
   'anonymousAccess': '匿名访问',
+
+  'open': '打开链接',
+  'copy': '复制链接'
 };
