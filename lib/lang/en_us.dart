@@ -16,4 +16,7 @@ const Map<String, String> enUS = {
   'youNeedToStop': 'You need to stop the service before exiting',
   'language': 'Language',
   'anonymousAccess': 'Anonymous Access',
+
+  'open': 'Open Link',
+  'copy': 'Copy Link'
 };

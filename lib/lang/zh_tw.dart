@@ -16,4 +16,7 @@ const Map<String, String> zhTW = {
   'youNeedToStop': '你需要先停止服務才能離開',
   'language': '語言',
   'anonymousAccess': '匿名訪問',
+
+  'open': '開啟連結',
+  'copy': '複製連結'
 };
