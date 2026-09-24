@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:clipboard/clipboard.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -329,7 +328,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                             if(val=="open"){
                               await launchUrl(Uri.parse("http://${controller.address.value}:${controller.sharePort.text}"));
                             }else if(val=="copy"){
-                              FlutterClipboard.copy("${controller.address.value}:${controller.sharePort.text}");
+                              Clipboard.setData(ClipboardData(text: "${controller.address.value}:${controller.sharePort.text}"));
                               if(context.mounted){
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
