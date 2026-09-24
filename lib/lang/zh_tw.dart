@@ -18,5 +18,6 @@ const Map<String, String> zhTW = {
   'anonymousAccess': '匿名訪問',
 
   'open': '開啟連結',
-  'copy': '複製連結'
+  'copy': '複製連結',
+  'copied': '已複製'
 };

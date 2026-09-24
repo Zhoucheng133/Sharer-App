@@ -333,7 +333,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                               if(context.mounted){
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text("copyed".tr),
+                                    content: Text("copied".tr),
                                     duration: const Duration(milliseconds: 500),
                                   ),
                                 );

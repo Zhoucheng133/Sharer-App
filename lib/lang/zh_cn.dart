@@ -18,5 +18,6 @@ const Map<String, String> zhCN = {
   'anonymousAccess': '匿名访问',
 
   'open': '打开链接',
-  'copy': '复制链接'
+  'copy': '复制链接',
+  'copied': '已复制'
 };

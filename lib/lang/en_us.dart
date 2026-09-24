@@ -18,5 +18,6 @@ const Map<String, String> enUS = {
   'anonymousAccess': 'Anonymous Access',
 
   'open': 'Open Link',
-  'copy': 'Copy Link'
+  'copy': 'Copy Link',
+  'copied': 'Copied'
 };
